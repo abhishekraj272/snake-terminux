@@ -22,6 +22,14 @@ func (g *Game) getRand() (int, int) {
 	return rand2, rand1
 }
 
-func (g *Game) getTail() (int, int) {
-
+func (g *Game) getTail() {
+	if g.board[g.tailX-1][g.tailY] == 1 {
+		g.tailX--
+	} else if g.board[g.tailX+1][g.tailY] == 1 {
+		g.tailX++
+	} else if g.board[g.tailX][g.tailY-1] == 1 {
+		g.tailY--
+	} else {
+		g.tailY++
+	}
 }

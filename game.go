@@ -141,8 +141,30 @@ func (g *Game) resetGame() {
 	g.getFood()
 }
 
+func (g *Game) moveUp() {
+	g.headX--
+	g.board[g.headX][g.headY] = 1
+	g.board[g.tailX][g.tailY] = 0
+	g.getTail()
+}
+
+func (g *Game) moveRight() {
+	g.headY++
+	g.board[g.headX][g.headY] = 1
+	g.board[g.tailX][g.tailY] = 0
+	g.getTail()
+}
+
+func (g *Game) moveDown() {
+	g.headX++
+	g.board[g.headX][g.headY] = 1
+	g.board[g.tailX][g.tailY] = 0
+	g.getTail()
+}
+
 func (g *Game) moveLeft() {
 	g.headY--
 	g.board[g.headX][g.headY] = 1
 	g.board[g.tailX][g.tailY] = 0
+	g.getTail()
 }
