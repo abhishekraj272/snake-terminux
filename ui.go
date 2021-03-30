@@ -1,0 +1,1 @@
+const boardHeight = 16
