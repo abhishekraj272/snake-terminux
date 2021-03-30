@@ -1,1 +1,1 @@
-const boardHeight = 16
+package main

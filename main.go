@@ -1,47 +1,13 @@
 package main
 
 import (
-	"math/rand"
-	"os"
-	"os/exec"
-	"runtime"
 	"time"
 
 	"github.com/nsf/termbox-go"
 )
 
-var clear map[string]func() //create a map for storing clear funcs
-
-func init() {
-	clear = make(map[string]func()) //Initialize it
-	clear["linux"] = func() {
-		cmd := exec.Command("clear") //Linux example, its tested
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	}
-	clear["windows"] = func() {
-		cmd := exec.Command("cmd", "/c", "cls") //Windows example, its tested
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	}
-}
-
-func CallClear() {
-	value, ok := clear[runtime.GOOS] //runtime.GOOS -> linux, windows, darwin etc.
-	if ok {                          //if we defined a clear func for that platform:
-		value() //we execute it
-	} else { //unsupported platform
-		panic("Your platform is unsupported! I can't clear terminal screen :(")
-	}
-}
-
-var board [10][10]int
-
 func main() {
-	board[2][3] = 1
-	board[3][3] = 1
-	board[4][3] = 1
-	rand.Seed(time.Now().UnixNano())
+	g := NewGame()
 
 	err := termbox.Init()
 	if err != nil {
@@ -56,4 +22,50 @@ func main() {
 			eventQueue <- termbox.PollEvent()
 		}
 	}()
+
+	render(g)
+
+	for {
+		select {
+		case ev := <-eventQueue:
+			if ev.Type == termbox.EventKey {
+				switch {
+				case ev.Key == termbox.KeyArrowLeft:
+					g.direction = "left"
+
+					if g.checkMove() {
+						g.moveLeft()
+						g.checkFood()
+					}
+				case ev.Key == termbox.KeyArrowRight:
+					g.direction = "right"
+
+					if g.checkMove() {
+						g.moveRight()
+						g.checkFood()
+					}
+				case ev.Key == termbox.KeyArrowUp:
+					g.direction = "up"
+
+					if g.checkMove() {
+						g.moveUp()
+						g.checkFood()
+					}
+				case ev.Key == termbox.KeyArrowDown:
+					g.direction = "down"
+
+					if g.checkMove() {
+						g.moveDown()
+						g.checkFood()
+					}
+
+				case ev.Ch == 'q' || ev.Key == termbox.KeyEsc || ev.Key == termbox.KeyCtrlC || ev.Key == termbox.KeyCtrlD:
+					return
+				}
+			}
+		default:
+			render(g)
+			time.Sleep(10 * time.Millisecond)
+		}
+	}
 }
