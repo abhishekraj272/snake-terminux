@@ -1,15 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
 type Game struct {
-	board       [][]int
+	board       [][]int8
 	score       int
 	length      int
 	round       int
+	state       int
 	headX       int
 	headY       int
 	tailX       int
@@ -24,18 +26,16 @@ type Game struct {
 func NewGame() *Game {
 	g := new(Game)
 
-	// var boardHeight int
-	// var boardWidth int
-	// fmt.Println("Enter Height of Board: ")
-	// fmt.Scan(&boardHeight)
+	var boardHeight int
+	var boardWidth int
+	fmt.Println("Enter Height of Board: ")
+	fmt.Scan(&boardHeight)
 
-	// fmt.Println("Enter Width of Board: ")
-	// fmt.Scan(&boardWidth)
+	fmt.Println("Enter Width of Board: ")
+	fmt.Scan(&boardWidth)
 
-	// g.boardHeight = boardHeight
-	// g.boardWidth = boardWidth
-	g.boardHeight = 16
-	g.boardWidth = 16
+	g.boardHeight = boardHeight
+	g.boardWidth = boardWidth
 	g.direction = "right"
 	g.resetGame()
 
@@ -44,10 +44,10 @@ func NewGame() *Game {
 
 func (g *Game) resetGame() {
 
-	g.board = make([][]int, g.boardHeight)
+	g.board = make([][]int8, g.boardHeight)
 
 	for i := 0; i < g.boardHeight; i++ {
-		g.board[i] = make([]int, g.boardWidth)
+		g.board[i] = make([]int8, g.boardWidth)
 
 		for j := 0; j < g.boardWidth; j++ {
 			g.board[i][j] = 0
@@ -61,7 +61,7 @@ func (g *Game) resetGame() {
 	g.headY = 0
 	g.tailX = 0
 	g.tailY = 0
-
+	g.state = 1
 	g.getFood()
 }
 

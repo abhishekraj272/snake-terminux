@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/nsf/termbox-go"
 )
 
@@ -20,6 +23,14 @@ const cellWidth = 2
 
 const title = "Nostalgic SNAKE Game"
 
+var instructions = []string{
+	"Round: %v",
+	"Score: %v",
+	"Length: %v",
+	"",
+	"GAME OVER!",
+}
+
 func render(g *Game) {
 	termbox.Clear(backgroundColor, backgroundColor)
 	tbprint(titleStartX, titleStartY, instructionsColor, backgroundColor, title)
@@ -38,6 +49,22 @@ func render(g *Game) {
 				termbox.SetCell(boardStartX+cellWidth*j+x, boardStartY+i, ' ', cellColor, cellColor)
 			}
 		}
+	}
+
+	instructStartX, instructStartY := g.getInstructLoc()
+
+	for y, instruction := range instructions {
+		if strings.HasPrefix(instruction, "Round:") {
+			instruction = fmt.Sprintf(instruction, g.round)
+		} else if strings.HasPrefix(instruction, "Score:") {
+			instruction = fmt.Sprintf(instruction, g.score)
+		} else if strings.HasPrefix(instruction, "Length:") {
+			instruction = fmt.Sprintf(instruction, g.score)
+		} else if strings.HasPrefix(instruction, "GAME OVER") && g.state != 0 {
+			instruction = ""
+		}
+
+		tbprint(instructStartX, instructStartY+y, instructionsColor, backgroundColor, instruction)
 	}
 	termbox.Flush()
 }

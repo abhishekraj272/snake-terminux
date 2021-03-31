@@ -2,9 +2,6 @@ package main
 
 import (
 	"math/rand"
-	"os"
-	"os/exec"
-	"runtime"
 	"time"
 )
 
@@ -25,27 +22,9 @@ func (g *Game) getRand() (int, int) {
 	return rand2, rand1
 }
 
-var clear map[string]func() //create a map for storing clear funcs
+func (g *Game) getInstructLoc() (int, int) {
+	var boardEndX int = 2 + g.boardWidth*2
+	var boardEndY int = 3
 
-func init() {
-	clear = make(map[string]func()) //Initialize it
-	clear["linux"] = func() {
-		cmd := exec.Command("clear") //Linux example, its tested
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	}
-	clear["windows"] = func() {
-		cmd := exec.Command("cmd", "/c", "cls") //Windows example, its tested
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	}
-}
-
-func CallClear() {
-	value, ok := clear[runtime.GOOS] //runtime.GOOS -> linux, windows, darwin etc.
-	if ok {                          //if we defined a clear func for that platform:
-		value() //we execute it
-	} else { //unsupported platform
-		panic("Your platform is unsupported! I can't clear terminal screen :(")
-	}
+	return boardEndX + 2, boardEndY
 }
