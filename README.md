@@ -38,6 +38,9 @@ go run main.go
 ## Dependency
 1. [termbox-go](https://github.com/nsf/termbox-go)
 
+## Tested On
+- Ubuntu 20.04 LTS
+
 > Time taken on this project 4-5hrs Max
 
 ## Refrences
