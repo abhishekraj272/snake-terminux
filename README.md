@@ -1,5 +1,7 @@
 # SNAKE TERMINUX
 
+![Snake Game Demo Gif](https://github.com/abhishekraj272/snake-terminux/blob/main/static/snake-demo.gif?raw=true)
+
 ## Running Locally
 
 1. Fetch the repo
