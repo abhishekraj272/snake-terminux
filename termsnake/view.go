@@ -1,4 +1,4 @@
-package main
+package termsnake
 
 import (
 	"fmt"
@@ -31,7 +31,7 @@ var instructions = []string{
 	"GAME OVER!",
 }
 
-func render(g *Game) {
+func (g *Game) Render() {
 	termbox.Clear(backgroundColor, backgroundColor)
 	tbprint(titleStartX, titleStartY, instructionsColor, backgroundColor, title)
 	for i := 0; i < g.boardHeight; i++ {
@@ -55,12 +55,12 @@ func render(g *Game) {
 
 	for y, instruction := range instructions {
 		if strings.HasPrefix(instruction, "Round:") {
-			instruction = fmt.Sprintf(instruction, g.round)
+			instruction = fmt.Sprintf(instruction, g.Round)
 		} else if strings.HasPrefix(instruction, "Score:") {
 			instruction = fmt.Sprintf(instruction, g.score)
 		} else if strings.HasPrefix(instruction, "Length:") {
 			instruction = fmt.Sprintf(instruction, g.score)
-		} else if strings.HasPrefix(instruction, "GAME OVER") && g.state != 0 {
+		} else if strings.HasPrefix(instruction, "GAME OVER") && g.State != 0 {
 			instruction = ""
 		}
 

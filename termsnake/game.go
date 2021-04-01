@@ -1,4 +1,4 @@
-package main
+package termsnake
 
 import (
 	"fmt"
@@ -10,8 +10,8 @@ type Game struct {
 	board       [][]int8
 	score       int
 	length      int
-	round       int
-	state       int
+	Round       int
+	State       int
 	headX       int
 	headY       int
 	tailX       int
@@ -20,7 +20,7 @@ type Game struct {
 	boardWidth  int
 	foodX       int
 	foodY       int
-	direction   string
+	Direction   string
 }
 
 func NewGame() *Game {
@@ -36,7 +36,7 @@ func NewGame() *Game {
 
 	g.boardHeight = boardHeight
 	g.boardWidth = boardWidth
-	g.direction = "right"
+	g.Direction = "right"
 	g.resetGame()
 
 	return g
@@ -56,23 +56,23 @@ func (g *Game) resetGame() {
 	g.board[0][0] = 1
 	g.score = 0
 	g.length = 1
-	g.round = 0
+	g.Round = 0
 	g.headX = 0
 	g.headY = 0
 	g.tailX = 0
 	g.tailY = 0
-	g.state = 1
-	g.getFood()
+	g.State = 1
+	g.GetFood()
 }
 
-func (g *Game) getFood() {
+func (g *Game) GetFood() {
 	rand.Seed(time.Now().UnixNano())
 
 	i, j := g.getRand()
 
 	// 1 in game array means snake.
 	if g.board[i][j] == 1 {
-		g.getFood()
+		g.GetFood()
 	} else {
 		// 2 in game array means food.
 		g.board[i][j] = 2
@@ -81,13 +81,13 @@ func (g *Game) getFood() {
 	}
 }
 
-func (g *Game) checkFood() {
+func (g *Game) CheckFood() {
 	if g.foodX == g.headX && g.foodY == g.headY {
 		g.score++
 		g.length++
 		g.board[g.foodX][g.foodY] = 1
 
-		switch g.direction {
+		switch g.Direction {
 
 		case "up":
 			g.tailX++
@@ -109,12 +109,12 @@ func (g *Game) checkFood() {
 			panic("OMG, Direction is wrong")
 		}
 
-		g.getFood()
+		g.GetFood()
 	}
 }
 
-func (g *Game) checkMove() bool {
-	switch g.direction {
+func (g *Game) CheckMove() bool {
+	switch g.Direction {
 
 	case "up":
 		if g.headX == 0 || g.board[g.headX-1][g.headY] == 1 {
@@ -146,28 +146,28 @@ func (g *Game) checkMove() bool {
 
 }
 
-func (g *Game) moveUp() {
+func (g *Game) MoveUp() {
 	g.headX--
 	g.board[g.headX][g.headY] = 1
 	g.board[g.tailX][g.tailY] = 0
 	g.getTail()
 }
 
-func (g *Game) moveRight() {
+func (g *Game) MoveRight() {
 	g.headY++
 	g.board[g.headX][g.headY] = 1
 	g.board[g.tailX][g.tailY] = 0
 	g.getTail()
 }
 
-func (g *Game) moveDown() {
+func (g *Game) MoveDown() {
 	g.headX++
 	g.board[g.headX][g.headY] = 1
 	g.board[g.tailX][g.tailY] = 0
 	g.getTail()
 }
 
-func (g *Game) moveLeft() {
+func (g *Game) MoveLeft() {
 	g.headY--
 	g.board[g.headX][g.headY] = 1
 	g.board[g.tailX][g.tailY] = 0

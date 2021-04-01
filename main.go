@@ -1,13 +1,12 @@
 package main
 
 import (
-	"time"
-
+	"github.com/abhishekraj272/snake-terminux/termsnake"
 	"github.com/nsf/termbox-go"
 )
 
 func main() {
-	g := NewGame()
+	g := termsnake.NewGame()
 
 	err := termbox.Init()
 	if err != nil {
@@ -24,7 +23,7 @@ func main() {
 		}
 	}()
 
-	render(g)
+	g.Render()
 
 	for {
 		select {
@@ -32,44 +31,44 @@ func main() {
 			if ev.Type == termbox.EventKey {
 				switch {
 				case ev.Key == termbox.KeyArrowLeft:
-					g.direction = "left"
+					g.Direction = "left"
 
-					if g.checkMove() && g.state == 1 {
-						g.round++
-						g.moveLeft()
-						g.checkFood()
+					if g.CheckMove() && g.State == 1 {
+						g.Round++
+						g.MoveLeft()
+						g.CheckFood()
 					} else {
-						g.state = 0
+						g.State = 0
 					}
 				case ev.Key == termbox.KeyArrowRight:
-					g.direction = "right"
+					g.Direction = "right"
 
-					if g.checkMove() && g.state == 1 {
-						g.round++
-						g.moveRight()
-						g.checkFood()
+					if g.CheckMove() && g.State == 1 {
+						g.Round++
+						g.MoveRight()
+						g.CheckFood()
 					} else {
-						g.state = 0
+						g.State = 0
 					}
 				case ev.Key == termbox.KeyArrowUp:
-					g.direction = "up"
+					g.Direction = "up"
 
-					if g.checkMove() && g.state == 1 {
-						g.round++
-						g.moveUp()
-						g.checkFood()
+					if g.CheckMove() && g.State == 1 {
+						g.Round++
+						g.MoveUp()
+						g.CheckFood()
 					} else {
-						g.state = 0
+						g.State = 0
 					}
 				case ev.Key == termbox.KeyArrowDown:
-					g.direction = "down"
+					g.Direction = "down"
 
-					if g.checkMove() && g.state == 1 {
-						g.round++
-						g.moveDown()
-						g.checkFood()
+					if g.CheckMove() && g.State == 1 {
+						g.Round++
+						g.MoveDown()
+						g.CheckFood()
 					} else {
-						g.state = 0
+						g.State = 0
 					}
 
 				case ev.Ch == 'q' || ev.Key == termbox.KeyEsc || ev.Key == termbox.KeyCtrlC || ev.Key == termbox.KeyCtrlD:
@@ -77,8 +76,7 @@ func main() {
 				}
 			}
 		default:
-			render(g)
-			time.Sleep(10 * time.Millisecond)
+			g.Render()
 		}
 	}
 }
