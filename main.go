@@ -9,6 +9,7 @@ func main() {
 	g := termsnake.NewGame()
 
 	err := termbox.Init()
+
 	if err != nil {
 		panic(err)
 	}
