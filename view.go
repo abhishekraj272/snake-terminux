@@ -9,7 +9,7 @@ import (
 
 const backgroundColor = termbox.ColorBlue
 const boardColor = termbox.ColorBlack
-const instructionsColor = termbox.ColorYellow
+const instructionsColor = termbox.ColorWhite
 
 const defaultMarginWidth = 2
 const defaultMarginHeight = 1
