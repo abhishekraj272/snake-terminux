@@ -5,24 +5,27 @@ import (
 	"time"
 )
 
+// min returns the minimum of board Width and Height
 func (g *Game) min() int {
 	if g.boardHeight < g.boardWidth {
-		return g.boardHeight - 1
+		return g.boardHeight
 	}
-	return g.boardWidth - 1
+	return g.boardWidth
 }
 
+// getRand returns two random integer between 0 and min
 func (g *Game) getRand() (int, int) {
 	rand.Seed(time.Now().UnixNano())
-	rand1 := rand.Intn(g.min() + 1)
+	rand1 := rand.Intn(g.min())
 
 	rand.Seed(time.Now().UnixNano())
-	rand2 := rand.Intn(g.min() + 1)
+	rand2 := rand.Intn(g.min())
 
 	return rand2, rand1
 }
 
-func (g *Game) getInstructLoc() (int, int) {
+// getBoardEnd returns coords of board edges
+func (g *Game) getBoardEnd() (int, int) {
 	var boardEndX int = 2 + g.boardWidth*2
 	var boardEndY int = 3
 

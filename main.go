@@ -5,6 +5,13 @@ import (
 	"github.com/nsf/termbox-go"
 )
 
+/**
+* * Author: Abhishek Raj
+* ? Email: abhishekraj272@gmail.com
+* ! Github: https://github.com/abhishekraj272
+* ? Linkedin: https://www.linkedin.com/in/abhishekraj272/
+ */
+
 func main() {
 	g := termsnake.NewGame()
 

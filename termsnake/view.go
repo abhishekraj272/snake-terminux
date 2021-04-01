@@ -23,7 +23,8 @@ const cellWidth = 2
 
 const title = "SNAKE Game By Abhishek Raj (abhishekraj272@gmail.com)"
 
-var instructions = []string{
+// gameDetails stores template of the score board
+var gameDetails = []string{
 	"Round: %v",
 	"Score: %v",
 	"Length: %v",
@@ -31,9 +32,11 @@ var instructions = []string{
 	"GAME OVER!",
 }
 
+// Render renders the board & score board on the console using termbox
 func (g *Game) Render() {
 	termbox.Clear(backgroundColor, backgroundColor)
-	tbprint(titleStartX, titleStartY, instructionsColor, backgroundColor, title)
+	termboxPrint(titleStartX, titleStartY, instructionsColor, backgroundColor, title)
+
 	for i := 0; i < g.boardHeight; i++ {
 		for j := 0; j < g.boardWidth; j++ {
 			var cellColor termbox.Attribute
@@ -51,9 +54,9 @@ func (g *Game) Render() {
 		}
 	}
 
-	instructStartX, instructStartY := g.getInstructLoc()
+	instructStartX, instructStartY := g.getBoardEnd()
 
-	for y, instruction := range instructions {
+	for y, instruction := range gameDetails {
 		if strings.HasPrefix(instruction, "Round:") {
 			instruction = fmt.Sprintf(instruction, g.Round)
 		} else if strings.HasPrefix(instruction, "Score:") {
@@ -64,12 +67,13 @@ func (g *Game) Render() {
 			instruction = ""
 		}
 
-		tbprint(instructStartX, instructStartY+y, instructionsColor, backgroundColor, instruction)
+		termboxPrint(instructStartX, instructStartY+y, instructionsColor, backgroundColor, instruction)
 	}
 	termbox.Flush()
 }
 
-func tbprint(x, y int, fg, bg termbox.Attribute, msg string) {
+// termboxPrint is used to print score board
+func termboxPrint(x, y int, fg, bg termbox.Attribute, msg string) {
 	for _, c := range msg {
 		termbox.SetCell(x, y, c, fg, bg)
 		x++

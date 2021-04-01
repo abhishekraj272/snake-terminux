@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Game stores all the game data
 type Game struct {
 	board       [][]int8
 	score       int
@@ -23,6 +24,7 @@ type Game struct {
 	Direction   string
 }
 
+// NewGame creates a new Game instance and returns it
 func NewGame() *Game {
 	g := new(Game)
 
@@ -42,6 +44,8 @@ func NewGame() *Game {
 	return g
 }
 
+//  resetGame resets to game to its initial stage
+//  and assigns default values to game variables
 func (g *Game) resetGame() {
 
 	g.board = make([][]int8, g.boardHeight)
@@ -65,6 +69,7 @@ func (g *Game) resetGame() {
 	g.GetFood()
 }
 
+// GetFood spawns a food on the board
 func (g *Game) GetFood() {
 	rand.Seed(time.Now().UnixNano())
 
@@ -72,6 +77,7 @@ func (g *Game) GetFood() {
 
 	// 1 in game array means snake.
 	if g.board[i][j] == 1 {
+		// Check if food will spawn on snake
 		g.GetFood()
 	} else {
 		// 2 in game array means food.
@@ -81,6 +87,7 @@ func (g *Game) GetFood() {
 	}
 }
 
+// CheckFood checks if snake head is on the food
 func (g *Game) CheckFood() {
 	if g.foodX == g.headX && g.foodY == g.headY {
 		g.score++
@@ -113,6 +120,8 @@ func (g *Game) CheckFood() {
 	}
 }
 
+// CheckMove checks if the move of snake is valid, it returns
+// true if valid else false
 func (g *Game) CheckMove() bool {
 	switch g.Direction {
 
@@ -146,6 +155,7 @@ func (g *Game) CheckMove() bool {
 
 }
 
+// MoveUp moves the snake horizontally up
 func (g *Game) MoveUp() {
 	g.headX--
 	g.board[g.headX][g.headY] = 1
@@ -153,6 +163,7 @@ func (g *Game) MoveUp() {
 	g.getTail()
 }
 
+// MoveRight moves the snake vertically right
 func (g *Game) MoveRight() {
 	g.headY++
 	g.board[g.headX][g.headY] = 1
@@ -160,6 +171,7 @@ func (g *Game) MoveRight() {
 	g.getTail()
 }
 
+// MoveDown moves the snake horizontally down
 func (g *Game) MoveDown() {
 	g.headX++
 	g.board[g.headX][g.headY] = 1
@@ -167,6 +179,7 @@ func (g *Game) MoveDown() {
 	g.getTail()
 }
 
+// MoveLeft moves the snake vertically left
 func (g *Game) MoveLeft() {
 	g.headY--
 	g.board[g.headX][g.headY] = 1
@@ -174,6 +187,7 @@ func (g *Game) MoveLeft() {
 	g.getTail()
 }
 
+// getTail fetches the latest location of the tail after a move
 func (g *Game) getTail() {
 	if g.length == 1 {
 		g.tailX = g.headX
