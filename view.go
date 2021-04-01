@@ -21,7 +21,7 @@ const boardStartX = defaultMarginWidth
 const boardStartY = titleEndY + defaultMarginHeight
 const cellWidth = 2
 
-const title = "Nostalgic SNAKE Game"
+const title = "SNAKE Game By Abhishek Raj (abhishekraj272@gmail.com)"
 
 var instructions = []string{
 	"Round: %v",
